@@ -1,10 +1,10 @@
 import React, { Fragment } from "react"
 import Header from "../../common/header/Header"
 
-const Home = () => {
+const Home = (props) => {
   return (
     <Fragment>
-      <Header />
+      <Header baseUrl={props.baseUrl} />
     </Fragment>
   )
 }

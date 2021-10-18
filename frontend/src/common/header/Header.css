@@ -49,18 +49,29 @@
     to {
         transform: rotateY(0deg);
     }
-}  
+}
 
 .login_logout_button{
     float: right;
     margin-top: 3px;
     margin-right: 20px;
+    height: 28px;
 }
 
-.login_logout_button .book{
+.login_logout_button_book{
     float: right;
-    margin-top: 1px;
+    margin-top: 3px;
     margin-right: 20px;
-    height: 30px;
+    height: 28px;
 }
 
+.model{
+    position: fixed;
+    width: 360px;
+    top: 50%;
+    left: 50%;
+    align-items: center;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    border:1px solid;
+  }
