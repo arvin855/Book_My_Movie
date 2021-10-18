@@ -1,0 +1,66 @@
+.header{
+    background-color: #222;
+    height: 36px;
+    padding: 8px, 32px, 8px, 16px;
+}
+
+.logo{
+    background-color:  #ff7f7f;
+    margin-left: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    height: 35px;
+    float: left;
+    transform: scaleX(-1);
+    -webkit-animation: rotation 8s infinite linear;
+    -moz-animation: rotation 8s infinite linear;
+    -o-animation: rotation 8s infinite linear;
+    animation: rotation 8s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotateY(180deg);
+    }
+    to {
+        -webkit-transform: rotateY(0deg);
+    }
+}
+@-moz-keyframes rotation {
+    from {
+        -moz-transform: rotateY(180deg);
+    }
+    to {
+        -moz-transform: rotateY(0deg);
+    }
+}
+@-o-keyframes rotation {
+    from {
+        -o-transform: rotateY(180deg);
+    }
+    to {
+        -o-transform: rotateY(0deg);
+    }
+}
+ @keyframes rotation {
+    from {
+        transform: rotateY(180deg);
+    }
+    to {
+        transform: rotateY(0deg);
+    }
+}  
+
+.login_logout_button{
+    float: right;
+    margin-top: 3px;
+    margin-right: 20px;
+}
+
+.login_logout_button .book{
+    float: right;
+    margin-top: 1px;
+    margin-right: 20px;
+    height: 30px;
+}
+
