@@ -1,111 +1,111 @@
-import React, { useEffect, useState } from "react";
-import Header from "../../common/header/Header";
-import Typography from "@material-ui/core/Typography";
-import "./BookShow.css";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import Header from "../../common/header/Header"
+import Typography from "@material-ui/core/Typography"
+import "./BookShow.css"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import FormControl from "@material-ui/core/FormControl"
+import InputLabel from "@material-ui/core/InputLabel"
+import Input from "@material-ui/core/Input"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem"
+import Button from "@material-ui/core/Button"
+import FormHelperText from "@material-ui/core/FormHelperText"
+import { Link } from "react-router-dom"
 
 const BookShow = (props) => {
-  const [location, setLocation] = useState("");
-  const [theatre, setTheatre] = useState("");
-  const [language, setLanguage] = useState("");
-  const [showDate, setShowDate] = useState("");
-  const [tickets, setTickets] = useState(0);
-  const [unitPrice, setUnitPrice] = useState(500);
-  const [availableTickets, setAvailableTickets] = useState(20);
-  const [reqLocation, setReqLocation] = useState("dispNone");
-  const [reqTheatre, setReqTheatre] = useState("dispNone");
-  const [reqLanguage, setReqLanguage] = useState("dispNone");
-  const [reqShowDate, setReqShowDate] = useState("dispNone");
-  const [reqTickets, setReqTickets] = useState("dispNone");
-  const [locations, setLocations] = useState([]);
-  const [languages, setLanguages] = useState([]);
-  const [theatres, setTheatres] = useState([]);
-  const [showDates, setShowDates] = useState([]);
-  const [originalShows, setOriginalShows] = useState([]);
-  const [showId, setShowId] = useState("");
+  const [location, setLocation] = useState("")
+  const [theatre, setTheatre] = useState("")
+  const [language, setLanguage] = useState("")
+  const [showDate, setShowDate] = useState("")
+  const [tickets, setTickets] = useState(0)
+  const [unitPrice, setUnitPrice] = useState(500)
+  const [availableTickets, setAvailableTickets] = useState(20)
+  const [reqLocation, setReqLocation] = useState("dispNone")
+  const [reqTheatre, setReqTheatre] = useState("dispNone")
+  const [reqLanguage, setReqLanguage] = useState("dispNone")
+  const [reqShowDate, setReqShowDate] = useState("dispNone")
+  const [reqTickets, setReqTickets] = useState("dispNone")
+  const [locations, setLocations] = useState([])
+  const [languages, setLanguages] = useState([])
+  const [theatres, setTheatres] = useState([])
+  const [showDates, setShowDates] = useState([])
+  const [originalShows, setOriginalShows] = useState([])
+  const [showId, setShowId] = useState("")
 
   useEffect(() => {
-    let dataShows = null;
+    let dataShows = null
 
     fetch(props.baseUrl + "movies/" + props.match.params.id + "/shows", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "no-cache",
+        "Cache-Control": "no-cache"
       },
-      body: dataShows,
+      body: dataShows
     })
       .then((response) => response.json())
       .then((response) => {
-        setOriginalShows(response.shows);
+        setOriginalShows(response.shows)
 
-        let newLocations = [];
+        let newLocations = []
 
         for (let show of response.shows) {
           newLocations.push({
             id: show.theatre.city,
-            location: show.theatre.city,
-          });
+            location: show.theatre.city
+          })
         }
 
         newLocations = newLocations.filter(
           (loc, index, self) => index === self.findIndex((c) => c.id === loc.id)
-        );
-        setLocations(newLocations);
-      });
-  }, []);
+        )
+        setLocations(newLocations)
+      })
+  }, [])
 
   const locationChangeHandler = (event) => {
-    setLocation(event.target.value);
-    let newTheatres = [];
+    setLocation(event.target.value)
+    let newTheatres = []
 
     for (let show of originalShows) {
       if (show.theatre.city === event.target.value) {
-        newTheatres.push({ id: show.theatre.name, theatre: show.theatre.name });
+        newTheatres.push({ id: show.theatre.name, theatre: show.theatre.name })
       }
     }
 
     newTheatres = newTheatres.filter(
       (theatre, index, self) =>
         index === self.findIndex((t) => t.id === theatre.id)
-    );
+    )
 
-    setTheatres(newTheatres);
-  };
+    setTheatres(newTheatres)
+  }
 
   const theatreChangeHandler = (event) => {
-    setTheatre(event.target.value);
+    setTheatre(event.target.value)
 
-    let newLanguages = [];
+    let newLanguages = []
 
     for (let show of originalShows) {
       if (
         show.theatre.city === location &&
         show.theatre.name === event.target.value
       ) {
-        newLanguages.push({ id: show.language, language: show.language });
+        newLanguages.push({ id: show.language, language: show.language })
       }
     }
 
     newLanguages = newLanguages.filter(
       (lang, index, self) => index === self.findIndex((l) => l.id === lang.id)
-    );
-    setLanguages(newLanguages);
-  };
+    )
+    setLanguages(newLanguages)
+  }
 
   const languageChangeHandler = (event) => {
-    setLanguage(event.target.value);
+    setLanguage(event.target.value)
 
-    let newShowDates = [];
+    let newShowDates = []
 
     for (let show of originalShows) {
       if (
@@ -113,21 +113,21 @@ const BookShow = (props) => {
         show.theatre.name === theatre &&
         show.language === event.target.value
       ) {
-        newShowDates.push({ id: show.show_timing, showDate: show.show_timing });
+        newShowDates.push({ id: show.show_timing, showDate: show.show_timing })
       }
     }
 
     newShowDates = newShowDates.filter(
       (date, index, self) => index === self.findIndex((d) => d.id === date.id)
-    );
-    setShowDates(newShowDates);
-  };
+    )
+    setShowDates(newShowDates)
+  }
 
   const showDateChangeHandler = (event) => {
-    setShowDate(event.target.value);
+    setShowDate(event.target.value)
 
-    let unitPrice = 0;
-    let availableTickets = 0;
+    let unitPrice = 0
+    let availableTickets = 0
 
     for (let show of originalShows) {
       if (
@@ -136,25 +136,25 @@ const BookShow = (props) => {
         show.language === language &&
         show.show_timing === event.target.value
       ) {
-        unitPrice = show.unit_price;
-        availableTickets = show.available_seats;
-        setShowId(show.id);
+        unitPrice = show.unit_price
+        availableTickets = show.available_seats
+        setShowId(show.id)
       }
     }
-    setAvailableTickets(availableTickets);
-    setUnitPrice(unitPrice);
-  };
+    setAvailableTickets(availableTickets)
+    setUnitPrice(unitPrice)
+  }
 
   const ticketsChangeHandler = (event) => {
-    setTickets(event.target.value.split(","));
-  };
+    setTickets(event.target.value.split(","))
+  }
 
   const bookShowButtonHandler = () => {
-    location === "" ? setReqLocation("dispBlock") : setReqLocation("dispNone");
-    theatre === "" ? setReqTheatre("dispBlock") : setReqTheatre("dispNone");
-    language === "" ? setReqLanguage("dispBlock") : setReqLanguage("dispNone");
-    showDate === "" ? setReqShowDate("dispBlock") : setReqShowDate("dispNone");
-    tickets === 0 ? setReqTickets("dispBlock") : setReqTickets("dispNone");
+    location === "" ? setReqLocation("dispBlock") : setReqLocation("dispNone")
+    theatre === "" ? setReqTheatre("dispBlock") : setReqTheatre("dispNone")
+    language === "" ? setReqLanguage("dispBlock") : setReqLanguage("dispNone")
+    showDate === "" ? setReqShowDate("dispBlock") : setReqShowDate("dispNone")
+    tickets === 0 ? setReqTickets("dispBlock") : setReqTickets("dispNone")
 
     if (
       location === "" ||
@@ -163,7 +163,7 @@ const BookShow = (props) => {
       showDate === "" ||
       tickets === 0
     ) {
-      return;
+      return
     }
 
     props.history.push({
@@ -186,10 +186,10 @@ const BookShow = (props) => {
         theatres,
         showDates,
         originalShows,
-        showId,
-      },
-    });
-  };
+        showId
+      }
+    })
+  }
 
   return (
     <div>
@@ -285,9 +285,7 @@ const BookShow = (props) => {
             <br />
             <Typography>Unit Price: Rs. {unitPrice}</Typography>
             <br />
-            <Typography>
-              Total Price: Rs. {unitPrice * tickets}
-            </Typography>
+            <Typography>Total Price: Rs. {unitPrice * tickets}</Typography>
             <br />
             <br />
             <Button
@@ -301,7 +299,7 @@ const BookShow = (props) => {
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BookShow;
+export default BookShow

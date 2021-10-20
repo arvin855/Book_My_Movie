@@ -63,7 +63,7 @@ export default function Register(props) {
   }
 
   const Results = () => (
-    <p style={{ "fontSize ": "15px" }}>
+    <p style={{ "fontSize ": "10px" }}>
       Registration Successful. Please Login!
     </p>
   )

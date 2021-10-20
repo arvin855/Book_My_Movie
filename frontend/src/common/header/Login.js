@@ -2,8 +2,11 @@ import React, { useState } from "react"
 import { Button } from "@material-ui/core"
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator"
 import "./Header.css"
+import { useHistory } from "react-router"
 
 export default function Login(props) {
+  const history = useHistory()
+
   const [checkUser, setUsers] = useState({
     email_address: "",
     password: ""
@@ -37,10 +40,11 @@ export default function Login(props) {
           "access-token",
           rawResponse.headers.get("access-token")
         )
-        alert("success")
+        history.push("/")
       } else {
         const error = new Error()
         error.message = result.message || "Something went wrong."
+        alert(`Error: ${error.message}`)
       }
     } catch (e) {
       alert(`Error: ${e.message}`)

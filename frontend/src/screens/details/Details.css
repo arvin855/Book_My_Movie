@@ -1,0 +1,32 @@
+.custbtn{
+    margin-left: 24px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+    height: 24px;
+}
+
+.mainflexbox{
+    display: flex;
+}
+.leftflexbox{
+    flex-grow: 2;
+    width: 20%;
+}
+.middleflexbox{
+    flex-grow: 6;
+    width: 60%;
+    margin: 15px;
+}
+.rightflexbox{
+    flex-grow: 2;
+    width: 20%;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+.star{
+    cursor: pointer;
+    transition: color 200ms;
+}

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import Header from "../../common/header/Header";
-import "./Confirmation.css";
-import Typography from "@material-ui/core/Typography";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import green from "@material-ui/core/colors/green";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import Header from "../../common/header/Header"
+import "./Confirmation.css"
+import Typography from "@material-ui/core/Typography"
+import Input from "@material-ui/core/Input"
+import InputLabel from "@material-ui/core/InputLabel"
+import FormControl from "@material-ui/core/FormControl"
+import Button from "@material-ui/core/Button"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import Snackbar from "@material-ui/core/Snackbar"
+import IconButton from "@material-ui/core/IconButton"
+import CloseIcon from "@material-ui/icons/Close"
+import { withStyles } from "@material-ui/core/styles"
+import PropTypes from "prop-types"
+import CheckCircleIcon from "@material-ui/icons/CheckCircle"
+import green from "@material-ui/core/colors/green"
+import { Link } from "react-router-dom"
 
 const styles = (theme) => ({
   close: {
@@ -25,29 +25,29 @@ const styles = (theme) => ({
   success: {
     color: green[600],
   },
-});
+})
 
 const Confirmation = (props) => {
-  const [open, setOpen] = useState(false);
-  const [bookingId, setBookingId] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [originalTotalPrice, setOriginalTotalPrice] = useState(0);
+  const [open, setOpen] = useState(false)
+  const [bookingId, setBookingId] = useState("")
+  const [couponCode, setCouponCode] = useState("")
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [originalTotalPrice, setOriginalTotalPrice] = useState(0)
 
   useEffect(() => {
     const price =
       parseInt(props.location.bookingSummary.unitPrice, 10) *
-      parseInt(props.location.bookingSummary.tickets, 10);
-    setTotalPrice(price);
-    setOriginalTotalPrice(price);
-  }, []);
+      parseInt(props.location.bookingSummary.tickets, 10)
+    setTotalPrice(price)
+    setOriginalTotalPrice(price)
+  }, [])
 
   const confirmBookingHandler = () => {
     let data = JSON.stringify({
       coupon_code: couponCode,
       show_id: props.location.bookingSummary.showId,
       tickets: [props.location.bookingSummary.tickets.toString()],
-    });
+    })
 
     fetch(props.baseUrl + "bookings", {
       method: "POST",
@@ -60,19 +60,19 @@ const Confirmation = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setBookingId(data.reference_number);
-      });
+        setBookingId(data.reference_number)
+      })
 
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const snackBarCloseHandler = () => {
-    props.history.push("/");
-  };
+    props.history.push("/")
+  }
 
   const couponCodeChangeHandler = (e) => {
-    setCouponCode(e.target.value);
-  };
+    setCouponCode(e.target.value)
+  }
 
   const couponApplyHandler = () => {
     fetch(props.baseUrl + "movies/" + props.match.params.id, {
@@ -85,18 +85,18 @@ const Confirmation = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        let discountValue = data.value;
+        let discountValue = data.value
         if (discountValue !== undefined && discountValue > 0) {
           setTotalPrice(
             originalTotalPrice - (originalTotalPrice * discountValue) / 100
-          );
+          )
         } else {
-          setTotalPrice(originalTotalPrice);
+          setTotalPrice(originalTotalPrice)
         }
-      });
-  };
+      })
+  }
 
-  const { classes } = props;
+  const { classes } = props
 
   return (
     <div className="Details">
@@ -261,11 +261,11 @@ const Confirmation = (props) => {
         ]}
       />
     </div>
-  );
-};
+  )
+}
 
 Confirmation.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles)(Confirmation);
+export default withStyles(styles)(Confirmation)
