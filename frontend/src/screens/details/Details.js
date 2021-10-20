@@ -5,7 +5,7 @@ import { Button, Typography } from "@material-ui/core"
 import "./Details.css"
 import { useHistory } from "react-router"
 import YouTube from "react-youtube"
-import { StarBorder } from "@material-ui/icons"
+import Rating from "material-ui-rating"
 
 const Details = (props) => {
   const [details, setdetails] = useState({
@@ -79,8 +79,8 @@ const Details = (props) => {
       />
     )
   }
-  const [rating, setrating] = useState(null)
-  const [hover, sethover] = useState(null)
+  const [rating, setrating] = useState(0)
+  // const [hover, sethover] = useState(null)
 
   return (
     <Fragment>
@@ -133,27 +133,13 @@ const Details = (props) => {
           <Typography>
             <b>Rate this movie: </b>
           </Typography>
-          {[...Array(5)].map((star, i) => {
-            const ratingValue = i + 1
-            return (
-              <label id="1">
-                <input
-                  type="radio"
-                  name="rating"
-                  value={ratingValue}
-                  onClick={() => setrating(ratingValue)}
-                />
-                <StarBorder
-                  className="star"
-                  border-color={
-                    ratingValue <= (hover || rating) ? "#ffc107" : "#000000"
-                  }
-                  onMouseEnter={() => sethover(ratingValue)}
-                  onMouseOut={() => sethover(null)}
-                />
-              </label>
-            )
-          })}
+          <Rating
+            name="simple-controlled"
+            value={rating}
+            onChange={(event, newValue) => {
+              setrating(newValue)
+            }}
+          />
 
           <Typography style={{ marginTop: "16px", marginBottom: "16px" }}>
             <b>Artists: </b>
