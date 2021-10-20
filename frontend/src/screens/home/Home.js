@@ -17,6 +17,7 @@ import React, { Fragment, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Header from "../../common/header/Header"
 import "./Home.css"
+import { makeStyles } from "@material-ui/styles"
 
 const Home = (props) => {
   const [data, setdata] = useState([])
@@ -34,6 +35,14 @@ const Home = (props) => {
     const item = result.movies
     setdata(item)
   }, [])
+
+  const useStyles = makeStyles(() => ({
+    title: {
+      color: "blue",
+      marginTop: "15px"
+    }
+  }))
+  const classes = useStyles()
 
   const [age, setAge] = useState("")
 
@@ -86,6 +95,7 @@ const Home = (props) => {
         <div className="flex-right">
           <Card>
             <CardHeader
+              className={classes.title}
               title="FIND MOVIES BY:"
               color="theme.palette.primary.light"
               style={{ color: "theme.palette.primary.light" }}
@@ -95,18 +105,8 @@ const Home = (props) => {
                 variant="standard"
                 style={{ minWidth: 240, maxWidth: 240 }}
               >
-                <InputLabel htmlFor="my-input">Email address</InputLabel>
-                <Input id="my-input" />
-              </FormControl>
-            </CardContent>
-
-            <CardContent margin="theme.spacing.unit">
-              <FormControl
-                variant="standard"
-                style={{ minWidth: 240, maxWidth: 240 }}
-              >
-                <InputLabel htmlFor="my-input"> address</InputLabel>
-                <Input id="my-input" />
+                <InputLabel htmlFor="my-input">Movie Name</InputLabel>
+                <Input id="moviename" />
               </FormControl>
             </CardContent>
 
@@ -130,9 +130,58 @@ const Home = (props) => {
               </FormControl>
             </CardContent>
 
+            <CardContent margin="theme.spacing.unit">
+              <FormControl
+                variant="standard"
+                style={{ minWidth: 240, maxWidth: 240 }}
+              >
+                <InputLabel htmlFor="genres">Artists</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={age}
+                  label="Age"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </CardContent>
+
+            <CardContent margin="theme.spacing.unit">
+              <FormControl
+                variant="standard"
+                style={{ minWidth: 240, maxWidth: 240 }}
+              >
+                <InputLabel shrink htmlFor="my-input">
+                  Release Date Start
+                </InputLabel>
+                <Input type="date" />
+              </FormControl>
+            </CardContent>
+
+            <CardContent margin="theme.spacing.unit">
+              <FormControl
+                variant="standard"
+                style={{ minWidth: 240, maxWidth: 240 }}
+              >
+                <InputLabel shrink htmlFor="my-input">
+                  Release Date End
+                </InputLabel>
+                <Input type="date" />
+              </FormControl>
+            </CardContent>
+
             <CardActions>
-              <Button size="small" color="theme.palette.primary">
-                Learn More
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                fullWidth
+              >
+                APPLY
               </Button>
             </CardActions>
           </Card>
