@@ -11,6 +11,9 @@ import {
   InputLabel,
   Input,
   Select,
+  Checkbox,
+  ListItemIcon,
+  ListItemText,
   MenuItem
 } from "@material-ui/core"
 import React, { Fragment, useEffect, useState } from "react"
@@ -18,6 +21,25 @@ import { Link } from "react-router-dom"
 import Header from "../../common/header/Header"
 import "./Home.css"
 import { makeStyles } from "@material-ui/styles"
+
+const usecuststyle = makeStyles((theme) => ({
+  formControl: {
+    margin: 1,
+    width: 300
+  },
+  indeterminateColor: {
+    color: "#f50057"
+  },
+  selectAllText: {
+    fontWeight: 500
+  },
+  selectedAll: {
+    backgroundColor: "rgba(0, 0, 0, 0.08)",
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.08)"
+    }
+  }
+}))
 
 const Home = (props) => {
   const [data, setdata] = useState([])
@@ -74,6 +96,7 @@ const Home = (props) => {
   }, [])
   console.log(genres)
   console.log(artists)
+  console.log(data)
 
   const useStyles = makeStyles(() => ({
     title: {
@@ -82,30 +105,36 @@ const Home = (props) => {
     }
   }))
   const classes = useStyles()
+  const custstyles = usecuststyle()
 
-  const [age, setAge] = useState("")
+  const [gen, setgen] = useState([])
 
-  const handleChange = (event) => {
-    setAge(event.target.value)
+  const genhandleChange = (event) => {
+    const value = event.target.value
+    if (value[value.length - 1] === "all") {
+      setgen(gen.length === genres.length ? [] : genres)
+      return
+    }
+    setgen(value)
   }
 
-  // const [addfilter, setfilter] = useState({
-  //   movie_name: "",
-  //   first_name: "",
-  //   last_name: "",
-  //   mobile_number: "",
-  //   password: ""
-  // })
+  const [artistname, setartistname] = useState([])
 
-  // const inputChangedHandler = (e) => {
-  //   const state = addUser
-  //   state[e.target.name] = e.target.value
-  //   setfilter({ ...state })
-  // }
+  let artistnames = []
+  artistnames = artists.map((e) => `${e.first_name} ${e.last_name}`)
+  const handleChange = (event) => {
+    const value = event.target.value
+    if (value[value.length - 1] === "all") {
+      setartistname(artistname.length === artistnames.length ? [] : artistnames)
+      return
+    }
+    setartistname(value)
+  }
 
   return (
     <Fragment>
       <Header baseUrl={props.baseUrl} bookshowbutton="false" />
+
       <div className="Upcoming">Upcoming Movies</div>
 
       <div className="custgridpartent">
@@ -159,67 +188,51 @@ const Home = (props) => {
                 variant="standard"
                 style={{ minWidth: 240, maxWidth: 240 }}
               >
-                <InputLabel htmlFor="genres">Genres</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="genres"
-                  value={age}
-                  label="Age"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </CardContent>
-
-            <CardContent margin="theme.spacing.unit">
-              <FormControl
-                variant="standard"
-                style={{ minWidth: 240, maxWidth: 240 }}
-              >
                 <InputLabel htmlFor="my-input">Movie Name</InputLabel>
                 <Input id="moviename" />
               </FormControl>
             </CardContent>
 
             <CardContent margin="theme.spacing.unit">
-              <FormControl
-                variant="standard"
-                style={{ minWidth: 240, maxWidth: 240 }}
-              >
-                <InputLabel htmlFor="genres">Genres</InputLabel>
+              <FormControl className={custstyles.formControl}>
+                <InputLabel id="mutiple-select-label">Geners</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="genres"
-                  value={age}
-                  label="Age"
-                  onChange={handleChange}
+                  labelId="mutiple-select-label"
+                  multiple
+                  value={gen}
+                  onChange={genhandleChange}
+                  renderValue={(gen) => gen.join(", ")}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {genres.map((g) => (
+                    <MenuItem key={g.id} value={g.genre}>
+                      <ListItemIcon>
+                        <Checkbox checked={gen.indexOf(g.genre) > -1} />
+                      </ListItemIcon>
+                      <ListItemText primary={g.genre} />
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </CardContent>
 
             <CardContent margin="theme.spacing.unit">
-              <FormControl
-                variant="standard"
-                style={{ minWidth: 240, maxWidth: 240 }}
-              >
-                <InputLabel>Artists</InputLabel>
+              <FormControl className={custstyles.formControl}>
+                <InputLabel id="mutiple-select-label">Artists</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="Artists"
-                  value={age}
-                  label="Age"
+                  labelId="mutiple-select-label"
+                  multiple
+                  value={artistname}
                   onChange={handleChange}
+                  renderValue={(artistname) => artistname.join(", ")}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {artistnames.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      <ListItemIcon>
+                        <Checkbox checked={artistname.indexOf(option) > -1} />
+                      </ListItemIcon>
+                      <ListItemText primary={option} />
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </CardContent>
