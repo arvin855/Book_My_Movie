@@ -2,12 +2,29 @@ import React, { Fragment, useEffect, useState } from "react"
 import { GridList, GridListTileBar, GridListTile } from "@material-ui/core"
 import Header from "../../common/header/Header"
 import { Button, Typography } from "@material-ui/core"
+import StarBorderIcon from "@material-ui/icons/StarBorder"
 import "./Details.css"
 import { useHistory } from "react-router"
 import YouTube from "react-youtube"
 import Rating from "material-ui-rating"
+import { makeStyles } from "@material-ui/styles"
+
+const custuseStyles = makeStyles((theme) => ({
+  root1: {
+    display: "flex",
+    flexDirection: "column",
+
+    "& > * + *": {
+      marginTop: 1
+    }
+  },
+  emptyStar: {
+    color: "black"
+  }
+}))
 
 const Details = (props) => {
+  const custstyle = custuseStyles()
   const [details, setdetails] = useState({
     id: "",
     title: "",
@@ -61,6 +78,9 @@ const Details = (props) => {
     return match && match[7].length === 11 ? match[7] : false
   }
 
+  // function refreshPage() {
+  //   window.location.reload(false)
+  // }
   const Youtubefetch = () => {
     const opts = {
       height: "390",
@@ -133,13 +153,33 @@ const Details = (props) => {
           <Typography>
             <b>Rate this movie: </b>
           </Typography>
-          <Rating
+          <div className={custstyle.root1}>
+            <Rating
+              name="half-rating-read"
+              value={rating}
+              onChange={(event) => {
+                setrating(event)
+              }}
+              defaultValue={3.5}
+              precision={0.5}
+              emptyIcon={
+                <StarBorderIcon
+                  fontSize="inherit"
+                  className={custstyle.emptyStar}
+                />
+              }
+            />
+          </div>
+          {/* <Rating
             name="simple-controlled"
             value={rating}
-            onChange={(event, newValue) => {
-              setrating(newValue)
+            onChange={(event) => {
+              setrating(event)
             }}
-          />
+            emptyIcon={
+              <StarBorderIcon fontSize="inherit" className="emptyStar" />
+            }
+          /> */}
 
           <Typography style={{ marginTop: "16px", marginBottom: "16px" }}>
             <b>Artists: </b>
